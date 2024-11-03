@@ -6,38 +6,39 @@ import (
 	"time"
 
 	constants "github.com/KIVUOS1999/easyLogs/internal"
+	"github.com/KIVUOS1999/easyLogs/pkg/models"
 )
 
-func lvlToColor(level int) string {
+func lvlToColor(level models.LogLevel) string {
 	colorCode := constants.White
 	switch level {
-	case constants.Error:
+	case models.Error:
 		colorCode = constants.Red
-	case constants.ErrorWithTrace:
+	case models.ErrorWithTrace:
 		colorCode = constants.Red
-	case constants.Info:
+	case models.Info:
 		colorCode = constants.Blue
-	case constants.Debug:
+	case models.Debug:
 		colorCode = constants.White
-	case constants.Warn:
+	case models.Warn:
 		colorCode = constants.Yellow
 	}
 
 	return colorCode
 }
 
-func generatePrefix(level int) string {
-	levelName := "[ DEBUG ]\t:"
+func generatePrefix(level models.LogLevel) string {
+	levelName := "[ DEBUG ]\t"
 
 	switch level {
-	case constants.Error:
-		levelName = "[ ERROR ]\t:"
-	case constants.Warn:
-		levelName = "[ WARN ]\t:"
-	case constants.Info:
-		levelName = "[ INFO ]\t:"
-	case constants.ErrorWithTrace:
-		levelName = "[ TRACE ]\t:"
+	case models.Error:
+		levelName = "[ ERROR ]\t"
+	case models.Warn:
+		levelName = "[ WARN ]\t"
+	case models.Info:
+		levelName = "[ INFO ]\t"
+	case models.ErrorWithTrace:
+		levelName = "[ TRACE ]\t"
 	}
 
 	currentTime := generateTimeString()
@@ -61,7 +62,11 @@ func createLogString(parts ...any) string {
 	return logString
 }
 
-func logf(level int, inp string, args ...any) {
+func logf(level models.LogLevel, inp string, args ...any) {
+	if level > constants.LogConfig.LogLevel {
+		return
+	}
+
 	colorCode := lvlToColor(level)
 
 	fmt.Printf(colorCode + generatePrefix(level))
@@ -69,14 +74,17 @@ func logf(level int, inp string, args ...any) {
 	fmt.Println(constants.Reset)
 }
 
-func log(level int, inp ...any) {
+func log(level models.LogLevel, inp ...any) {
 	colorCode := lvlToColor(level)
-
 	prefix := generatePrefix(level)
 	userLog := createLogString(inp...)
 
-	if level == constants.ErrorWithTrace {
-		fmt.Printf(colorCode+prefix+userLog+"%s"+constants.Reset+"\n", printStackTrace())
+	if level == models.ErrorWithTrace {
+		fmt.Printf(colorCode+prefix+userLog+"\n%s"+constants.Reset+"\n", printStackTrace())
+		return
+	}
+
+	if level > constants.LogConfig.LogLevel {
 		return
 	}
 

@@ -1,6 +1,20 @@
 package log
 
-import "github.com/KIVUOS1999/easyLogs/internal/logs"
+import (
+	constants "github.com/KIVUOS1999/easyLogs/internal"
+	"github.com/KIVUOS1999/easyLogs/internal/logs"
+	"github.com/KIVUOS1999/easyLogs/pkg/models"
+)
+
+func Init(logLevel models.LogLevel, style models.LogFormat) {
+	constants.LogConfig.LogLevel = logLevel
+	constants.LogConfig.LogFormat = style
+}
+
+func init() {
+	constants.LogConfig.LogLevel = models.Debug
+	constants.LogConfig.LogFormat = models.ColoredLogs
+}
 
 func Error(inp ...any) {
 	logs.Error(inp...)

@@ -1,5 +1,7 @@
 package constants
 
+import "github.com/KIVUOS1999/easyLogs/pkg/models"
+
 const (
 	Reset   = "\033[0m"
 	Red     = "\033[31m"
@@ -12,10 +14,4 @@ const (
 	White   = "\033[97m"
 )
 
-const (
-	Error = iota
-	Warn
-	Info
-	Debug
-	ErrorWithTrace
-)
+var LogConfig models.LoggerConfig
