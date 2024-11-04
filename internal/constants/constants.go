@@ -1,6 +1,8 @@
 package constants
 
-import "github.com/KIVUOS1999/easyLogs/pkg/models"
+import (
+	"github.com/KIVUOS1999/easyLogs/internal/models"
+)
 
 const (
 	Reset   = "\033[0m"

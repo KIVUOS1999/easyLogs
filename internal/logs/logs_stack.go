@@ -1,11 +1,17 @@
 package logs
 
 import (
+	"bytes"
 	"runtime"
 )
 
-func printStackTrace() string {
-	buf := make([]byte, 1<<16)
+func getStackTrace() string {
+	buf := make([]byte, 1<<15)
 	runtime.Stack(buf, true)
-	return string(buf)
+
+	str := bytes.TrimRightFunc(buf, func(r rune) bool {
+		return r == '\x00'
+	})
+
+	return string(str)
 }

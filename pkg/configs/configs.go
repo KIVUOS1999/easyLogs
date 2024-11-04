@@ -1,11 +1,4 @@
-package models
-
-type Logger struct{}
-
-type LoggerConfig struct {
-	LogLevel  LogLevel
-	LogFormat LogFormat
-}
+package configs
 
 type LogLevel int
 

@@ -1,19 +1,19 @@
 package log
 
 import (
-	constants "github.com/KIVUOS1999/easyLogs/internal"
+	"github.com/KIVUOS1999/easyLogs/internal/constants"
 	"github.com/KIVUOS1999/easyLogs/internal/logs"
-	"github.com/KIVUOS1999/easyLogs/pkg/models"
+	"github.com/KIVUOS1999/easyLogs/pkg/configs"
 )
 
-func Init(logLevel models.LogLevel, style models.LogFormat) {
+func Init(logLevel configs.LogLevel, style configs.LogFormat) {
 	constants.LogConfig.LogLevel = logLevel
 	constants.LogConfig.LogFormat = style
 }
 
 func init() {
-	constants.LogConfig.LogLevel = models.Debug
-	constants.LogConfig.LogFormat = models.ColoredLogs
+	constants.LogConfig.LogLevel = configs.Debug
+	constants.LogConfig.LogFormat = configs.ColoredLogs
 }
 
 func Error(inp ...any) {
@@ -32,20 +32,20 @@ func Warn(inp ...any) {
 	logs.Warn(inp...)
 }
 
-func Errorf(inp string, args ...any) {
-	logs.Errorf(inp, args...)
+func Errorf(args ...any) {
+	logs.Errorf(args...)
 }
 
-func Infof(inp string, args ...any) {
-	logs.Infof(inp, args...)
+func Infof(args ...any) {
+	logs.Infof(args...)
 }
 
-func Debugf(inp string, args ...any) {
-	logs.Debugf(inp, args...)
+func Debugf(args ...any) {
+	logs.Debugf(args...)
 }
 
-func Warnf(inp string, args ...any) {
-	logs.Warnf(inp, args...)
+func Warnf(args ...any) {
+	logs.Warnf(args...)
 }
 
 func ErrorWithTrace(args ...any) {

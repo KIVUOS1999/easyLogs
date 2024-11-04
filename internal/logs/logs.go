@@ -1,41 +1,41 @@
 package logs
 
 import (
-	"github.com/KIVUOS1999/easyLogs/pkg/models"
+	"github.com/KIVUOS1999/easyLogs/pkg/configs"
 )
 
 func Error(inp ...any) {
-	log(models.Error, inp...)
+	formatDecider(configs.Error, false, inp...)
 }
 
 func Info(inp ...any) {
-	log(models.Info, inp...)
+	formatDecider(configs.Info, false, inp...)
 }
 
 func Debug(inp ...any) {
-	log(models.Debug, inp...)
+	formatDecider(configs.Debug, false, inp...)
 }
 
 func Warn(inp ...any) {
-	log(models.Warn, inp...)
+	formatDecider(configs.Warn, false, inp...)
 }
 
-func Errorf(inp string, args ...any) {
-	logf(models.Error, inp, args...)
+func Errorf(args ...any) {
+	formatDecider(configs.Error, true, args...)
 }
 
-func Infof(inp string, args ...any) {
-	logf(models.Info, inp, args...)
+func Infof(args ...any) {
+	formatDecider(configs.Info, true, args...)
 }
 
-func Debugf(inp string, args ...any) {
-	logf(models.Debug, inp, args...)
+func Debugf(args ...any) {
+	formatDecider(configs.Debug, true, args...)
 }
 
-func Warnf(inp string, args ...any) {
-	logf(models.Warn, inp, args...)
+func Warnf(args ...any) {
+	formatDecider(configs.Warn, true, args...)
 }
 
 func ErrorWithTrace(args ...any) {
-	log(models.ErrorWithTrace, args...)
+	formatDecider(configs.ErrorWithTrace, false, args...)
 }
