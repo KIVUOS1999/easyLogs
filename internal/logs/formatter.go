@@ -112,6 +112,7 @@ func formatStatsAndCallerDetails(input *models.JsonFormat) {
 	if runTimeStats != nil {
 		input.HeapAlloc = runTimeStats.HeapAlloc
 		input.StackAlloc = runTimeStats.StackAlloc
+		input.TotalAlloc = runTimeStats.TotalAlloc
 		input.SysAlloc = runTimeStats.SysAlloc
 		input.NumGC = runTimeStats.NumGC
 		input.NoGoRoutine = runTimeStats.NoGoRoutine
