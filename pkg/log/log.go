@@ -1,19 +1,34 @@
 package log
 
 import (
-	"github.com/KIVUOS1999/easyLogs/internal/constants"
 	"github.com/KIVUOS1999/easyLogs/internal/logs"
 	"github.com/KIVUOS1999/easyLogs/pkg/configs"
 )
 
-func Init(logLevel configs.LogLevel, style configs.LogFormat) {
-	constants.LogConfig.LogLevel = logLevel
-	constants.LogConfig.LogFormat = style
+func Init(args ...any) {
+	if len(args) >= 1 {
+		if level, ok := args[0].(configs.LogLevel); ok {
+			logs.LogConfig.LogLevel = level
+		}
+	}
+	if len(args) >= 2 {
+
+		if format, ok := args[1].(configs.LogFormat); ok {
+			logs.LogConfig.LogFormat = format
+		}
+	}
+
+	if len(args) >= 3 {
+		if memStats, ok := args[2].(bool); ok {
+			logs.LogConfig.EnableMemStats = memStats
+		}
+	}
 }
 
 func init() {
-	constants.LogConfig.LogLevel = configs.Debug
-	constants.LogConfig.LogFormat = configs.ColoredLogs
+	logs.LogConfig.LogLevel = configs.Debug
+	logs.LogConfig.LogFormat = configs.ColoredLogs
+	logs.LogConfig.EnableMemStats = false
 }
 
 func Error(inp ...any) {

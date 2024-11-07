@@ -2,10 +2,13 @@ package logs
 
 import (
 	"fmt"
+	"math"
+	"runtime"
+	"strconv"
 	"strings"
 	"time"
 
-	"github.com/KIVUOS1999/easyLogs/internal/constants"
+	"github.com/KIVUOS1999/easyLogs/internal/models"
 	"github.com/KIVUOS1999/easyLogs/pkg/configs"
 )
 
@@ -22,39 +25,40 @@ func lvlToString(level configs.LogLevel) string {
 }
 
 func lvlToColor(level configs.LogLevel) string {
-	colorCode := constants.White
+	colorCode := white
 	switch level {
 	case configs.Error:
-		colorCode = constants.Red
+		colorCode = red
 	case configs.ErrorWithTrace:
-		colorCode = constants.Red
+		colorCode = red
 	case configs.Info:
-		colorCode = constants.Blue
+		colorCode = blue
 	case configs.Debug:
-		colorCode = constants.White
+		colorCode = white
 	case configs.Warn:
-		colorCode = constants.Yellow
+		colorCode = yellow
 	}
 
 	return colorCode
 }
 
 func generatePrefix(level configs.LogLevel) string {
-	levelName := "[ DEBUG ]\t"
+	levelName := "[ DEBUG ]"
 
 	switch level {
 	case configs.Error:
-		levelName = "[ ERROR ]\t"
+		levelName = "[ ERROR ]"
 	case configs.Warn:
-		levelName = "[ WARN ]\t"
+		levelName = "[ WARN  ]"
 	case configs.Info:
-		levelName = "[ INFO ]\t"
+		levelName = "[ INFO  ]"
 	case configs.ErrorWithTrace:
-		levelName = "[ TRACE ]\t"
+		levelName = "[ TRACE ]"
 	}
 
 	currentTime := generateTimeString()
-	return currentTime + "\t" + levelName
+	funcName := getCallerFuncName(skip)
+	return currentTime + " " + levelName + " " + funcName.CallerFunctionName + "()#" + strconv.Itoa(funcName.LineNumber) + "\t"
 }
 
 func generateTimeString() string {
@@ -72,4 +76,45 @@ func createLogString(parts ...any) string {
 
 	logString := strings.Join(stringParts, " ")
 	return logString
+}
+
+func getCallerFuncName(skip int) *models.JsonFormat {
+	pc, file, no, ok := runtime.Caller(skip)
+	if ok {
+		funcObj := runtime.FuncForPC(pc)
+		funcName := funcObj.Name()
+
+		return &models.JsonFormat{
+			CallerFileName:     file,
+			CallerFunctionName: funcName,
+			LineNumber:         no,
+		}
+	}
+
+	return nil
+}
+
+func getSystemStats() *models.JsonFormat {
+	if !LogConfig.EnableMemStats {
+		return nil
+	}
+
+	memStats := runtime.MemStats{}
+	runtime.ReadMemStats(&memStats)
+
+	heapAlloc := math.Round(float64(memStats.Alloc)/1024/1024*100) / 100
+	stackAlloc := math.Round(float64(memStats.StackInuse)/1024/1024*100) / 100
+	totalAlloc := math.Round(float64(memStats.TotalAlloc)/1024/1024*100) / 100
+	sysAlloc := math.Round(float64(memStats.Sys)/1024/1024*100) / 100
+	numGC := int(memStats.NumGC)
+	numGoRoutine := runtime.NumGoroutine()
+
+	return &models.JsonFormat{
+		HeapAlloc:   &heapAlloc,
+		StackAlloc:  &stackAlloc,
+		TotalAlloc:  &totalAlloc,
+		SysAlloc:    &sysAlloc,
+		NumGC:       &numGC,
+		NoGoRoutine: &numGoRoutine,
+	}
 }
