@@ -21,28 +21,37 @@ Once imported it can be used directly use it with default options.
 package main
 
 import (
- "github.com/KIVUOS1999/easyLogs/pkg/log"
+	"github.com/KIVUOS1999/easyLogs/pkg/log"
 )
 
 func main() {
     log.Debug("Debug", 2)
     log.Info("Info", 2)
- log.Warn("Warn", 2)
- log.Error("Error", 2)
+    log.Warn("Warn", 2)
+    log.Error("Error", 2)
     
     log.Debugf("Debug %d", 2)
     log.Infof("Info %+v", 2)
- log.Warnf("Warn %s ... ", "test")
- log.Errorf("Error %d", 2)
+    log.Warnf("Warn %s ... ", "test")
+    log.Errorf("Error %d", 2)
 
     log.ErrorWithTrace("Error this is")
 }
 ```
 
 ### Default output
-
-[Image]("https://1drv.ms/i/s!Aho-_IuMswcjgqtrBbixKEkH97N_Vw?embed=1&width=2528&height=516")
-
+2024-11-07 22:25:57 [ DEBUG ] main.main()#35    Debug 2<br>
+${\textsf{\color{blue}2024-11-07 22:25:57 [ INFO  ] main.main() 36    Info 2}}$<br>
+${\textsf{\color{yellow}2024-11-07 22:25:57 [ WARN  ] main.main() 37    Warn 2}}$<br>
+${\textsf{\color{red}2024-11-07 22:25:57 [ ERROR ] main.main() 38    Error 2}}$<br>
+2024-11-07 22:25:57 [ DEBUG ] main.main() 40    Debug 2}}$<br>
+${\textsf{\color{blue}2024-11-07 22:25:57 [ INFO  ] main.main() 41    Info 2}}$<br>
+${\textsf{\color{yellow}2024-11-07 22:25:57 [ WARN  ] main.main() 42    Warn test ...}}$<br>
+${\textsf{\color{red}2024-11-07 22:25:57 [ ERROR ] main.main() 43    Error 2}}$<br>
+${\textsf{\color{red}2024-11-07 22:25:57 [ TRACE ] github.com/KIVUOS1999/easyLogs/pkg/log.ErrorWithTrace() 67        Error this is}}$<br>
+${\textsf{\color{red}goroutine 1 [running]:}}$<br>
+${\textsf{\color{red}github.com/KIVUOS1999/easyLogs/internal/logs.getStackTrace()}}$<br>
+		
 ### Available levels
 
 This package supports level for `Info`, `Debug`, `Warn`, `Error`. You can use a format specifier with `Infof`, `Debugf`, `Warnf`, `Errorf`. You can control the level of output by passing some params that is discussed here. There is another type log print `ErrorWithTrace` which will generate the stack trace.
@@ -68,16 +77,16 @@ package main
 
 import(
     "github.com/KIVUOS1999/easyLogs/pkg/configs"
- "github.com/KIVUOS1999/easyLogs/pkg/log"
+    "github.com/KIVUOS1999/easyLogs/pkg/log"
 )
 
 func main(){
     log.Init(configs.Info)
 
     log.Debug("Debug", 2)
- log.Info("Info", 2)
- log.Warn("Warn", 2)
- log.Error("Error", 2)
+    log.Info("Info", 2)
+    log.Warn("Warn", 2)
+    log.Error("Error", 2)
 }
 ```
 
@@ -100,16 +109,16 @@ package main
 
 import(
     "github.com/KIVUOS1999/easyLogs/pkg/configs"
- "github.com/KIVUOS1999/easyLogs/pkg/log"
+    "github.com/KIVUOS1999/easyLogs/pkg/log"
 )
 
 func main(){
     log.Init("", configs.JsonLogs)
 
     log.Debug("Debug", 2)
- log.Info("Info", 2)
- log.Warn("Warn", 2)
- log.Error("Error", 2)
+    log.Info("Info", 2)
+    log.Warn("Warn", 2)
+    log.Error("Error", 2)
 }
 ```
 
@@ -140,16 +149,16 @@ package main
 
 import(
     "github.com/KIVUOS1999/easyLogs/pkg/configs"
- "github.com/KIVUOS1999/easyLogs/pkg/log"
+	"github.com/KIVUOS1999/easyLogs/pkg/log"
 )
 
 func main(){
     log.Init("", configs.JsonLogs, true)
 
     log.Debug("Debug", 2)
- log.Info("Info", 2)
- log.Warn("Warn", 2)
- log.Error("Error", 2)
+ 	log.Info("Info", 2)
+ 	log.Warn("Warn", 2)
+ 	log.Error("Error", 2)
 }
 ```
 
